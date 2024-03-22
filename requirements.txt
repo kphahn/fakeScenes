@@ -1,0 +1,6 @@
+fake-bpy-module-3.3
+numpy
+pandas
+plotly
+h5py
+kaleido
