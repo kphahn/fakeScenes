@@ -16,6 +16,8 @@ if not save_dir.exists():
     save_dir.mkdir(parents=True)
     (save_dir / "labels").mkdir()
     (save_dir / "pointclouds").mkdir()
+    (save_dir / "transformations").mkdir()
+
 print(f"Saving dataset to {save_dir.absolute()}")
 
 start_frame = bpy.context.scene.frame_start
@@ -81,6 +83,12 @@ for frame in range(start_frame, end_frame):
                 f"{label_data['x'][i]},{label_data['y'][i]},{label_data['z'][i]},{label_data['label'][i]}\n"
             )
 
+    with open(save_dir / "transformations" / f"transformation_{frame}.csv", "w") as f:
+        f.write("x,y,z,rot_x,rot_y,rot_z\n")
+        f.write(
+            f"{lidar_loc[0]},{lidar_loc[1]},{0},{0}, {0}, {lidar_loc[2]}\n"
+        )
+
 # --------------------------- Generate point clouds -------------------------- #
 
 for frame in range(start_frame, end_frame):
@@ -90,16 +98,16 @@ for frame in range(start_frame, end_frame):
         bpy.context,
         # ------------------------------- Lidar Params ------------------------------- #
         scannerObject=lidar,  # Camera object that will act as the LiDAR
-        xStepDegree=0.35,  # Horizontal resolution of the LiDAR
-        fovX=360,  # Horizontal field of view of the LiDAR
-        yStepDegree=0.35,  # Vertical resolution of the LiDAR
-        fovY=22.5,  # Vertical field of view of the LiDAR
-        rotationsPerSecond=20,
+        xStepDegree=0.02,  # Horizontal resolution of the LiDAR
+        fovX=120,  # Horizontal field of view of the LiDAR
+        yStepDegree=0.3,  # Vertical resolution of the LiDAR
+        fovY=25,  # Vertical field of view of the LiDAR
+        rotationsPerSecond=10,
         # ------------------------------ Ray Parameters ------------------------------ #
         reflectivityLower=0.0,
-        distanceLower=0.0,
+        distanceLower=0.5,
         reflectivityUpper=0.0,
-        distanceUpper=99999.9,
+        distanceUpper=150,
         maxReflectionDepth=10,
         # ------------------------------ Animation Params ----------------------------- #
         # Will include LiDAR rotation distortion in the point cloud
@@ -113,9 +121,9 @@ for frame in range(start_frame, end_frame):
         # ----------------------------------- Noise ---------------------------------- #
         addNoise=True,
         noiseType="gaussian",
-        mu=0.0,
-        sigma=0.01,
-        noiseAbsoluteOffset=0.0,
+        mu=0.00,
+        sigma=0.02,
+        noiseAbsoluteOffset=0.03,
         noiseRelativeOffset=0.0,
         # ----------------------------------- Rain ----------------------------------- #
         simulateRain=False,
@@ -123,9 +131,9 @@ for frame in range(start_frame, end_frame):
         # ------------------------------ Export options ------------------------------ #
         addMesh=False,
         exportLAS=False,
-        exportHDF=True,
+        exportHDF=False,
         exportCSV=False,
-        exportPLY=False,
+        exportPLY=True,
         exportSingleFrames=True,
         dataFilePath=str((save_dir / "pointclouds").absolute()),
         dataFileName="cloud",

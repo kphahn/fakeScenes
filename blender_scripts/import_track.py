@@ -12,7 +12,7 @@ from pathlib import Path
 BLEND_SCENE_PATH = Path(__file__).resolve().parent.parent
 
 # Path to the track data file, must be absolute path
-TRACK_DATA_FILE = BLEND_SCENE_PATH / "generated/tracks/track_s835596912.json"
+TRACK_DATA_FILE = BLEND_SCENE_PATH / "generated/tracks/track_1.json"
 
 DELETE_OLD_CONES = True
 LIDAR_HEIGHT_OVER_CURSOR = 0.7

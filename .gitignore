@@ -2,3 +2,4 @@ __pycache__
 .venv
 *.blend1
 generated
+.vscode
