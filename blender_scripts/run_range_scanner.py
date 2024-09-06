@@ -98,7 +98,7 @@ for frame in range(start_frame, end_frame):
         bpy.context,
         # ------------------------------- Lidar Params ------------------------------- #
         scannerObject=lidar,  # Camera object that will act as the LiDAR
-        xStepDegree=0.02,  # Horizontal resolution of the LiDAR
+        xStepDegree=0.2,  # Horizontal resolution of the LiDAR
         fovX=120,  # Horizontal field of view of the LiDAR
         yStepDegree=0.3,  # Vertical resolution of the LiDAR
         fovY=25,  # Vertical field of view of the LiDAR
